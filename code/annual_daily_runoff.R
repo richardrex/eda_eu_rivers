@@ -23,6 +23,8 @@ runoff_characteristic$range <- runoff_characteristic$max - runoff_characteristic
 
 
 ### Categories for the stations
-
+chat_station <- runoff_characteristic[, .(max(range), min(range)), by = id]
+colnames(chat_station) <- c("ID","max_range", "min_range")
+chat_station$ID <- as.numeric(chat_station$ID)
 
 
