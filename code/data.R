@@ -2,7 +2,7 @@ library(data.table)
 library(ggplot2)
 library(mapview)
 library(sf)
-###123
+
 
 runoff_eu_day <- readRDS('~/R/Projects/eda_eu_rivers-master/data/runoff_eu_day.rds')
 runoff_eu_info <- readRDS('~/R/Projects/eda_eu_rivers-master/data/runoff_eu_info.rds')
