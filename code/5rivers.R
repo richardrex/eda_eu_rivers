@@ -144,9 +144,17 @@ ggplot(all_stations_winter_runoff, aes(x = year, y = V1)) +
   theme_bw()
 
 ##Two last plots working bad , because in all_station_winter/summer_runoff more than 150 rivers , so there is no enough place for all plots
-#
 
 
-
-
-
+saveRDS(all_stations_summer_runoff, '~/eda_eu_rivers/data/all_stations_summer_runoff.rds')
+saveRDS(all_stations_winter_runoff, '~/eda_eu_rivers/data/all_stations_winter_runoff.rds')
+saveRDS(dee_river, '~/eda_eu_rivers/data/dee_river.rds')
+saveRDS(dee_roll_mean, '~/eda_eu_rivers/data/dee_roll_mean.rds')
+saveRDS(main_5_info, '~/eda_eu_rivers/data/main_5_info.rds')
+saveRDS(rivers_5_info, '~/eda_eu_rivers/data/rivers_5_info.rds')
+saveRDS(runoff_5_rivers, '~/eda_eu_rivers/data/runoff_5_rivers.rds')
+saveRDS(runoff_5_rivers_2, '~/eda_eu_rivers/data/runoff_5_rivers_2.rds')
+saveRDS(seasonal_discharge, '~/eda_eu_rivers/data/seasonal_discharge.rds')
+saveRDS(sum_year_discharge, '~/eda_eu_rivers/data/sum_year_discharge.rds')
+saveRDS(summer_runnof, '~/eda_eu_rivers/data/summer_runnof.rds')
+saveRDS(winter_runnof, '~/eda_eu_rivers/data/winter_runnof.rds')

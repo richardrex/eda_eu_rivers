@@ -15,7 +15,7 @@ stations_coords <- st_as_sf(runoff_eu_info,
 
 mapview(stations_coords, map.types = 'Stamen.TerrainBackground')
 
-## A1:The stations are scattered throughout Europe. Higher concentrations of stations in the Nordics and DE
+## bigger part of all stations are located in central europe, a lot of stations are in Scandinavia
 
 
 
@@ -53,9 +53,9 @@ year_plot #the bigger part of stations have 100 year of data
 
 
 
-saveRDS(rivers_lovation, 'C:/Users/42077/Documents/eda_eu_rivers/assigment/rivers_lovation.rds')
-saveRDS(station_per_country, 'C:/Users/42077/Documents/eda_eu_rivers/assigment/station_per_country.rds')
-saveRDS(rivers_per_country, 'C:/Users/42077/Documents/eda_eu_rivers/assigment/rivers_per_country.rds')
-saveRDS(stations_per_river, 'C:/Users/42077/Documents/eda_eu_rivers/assigment/stations_per_river.rds')
-saveRDS(distribution, 'C:/Users/42077/Documents/eda_eu_rivers/assigment/distribution.rds')
-saveRDS(year, 'C:/Users/42077/Documents/eda_eu_rivers/assigment/year.rds')
+saveRDS(rivers_lovation, '~/eda_eu_rivers/assigment/rivers_lovation.rds')
+saveRDS(station_per_country, '~/eda_eu_rivers/assigment/station_per_country.rds')
+saveRDS(rivers_per_country, '~/eda_eu_rivers/assigment/rivers_per_country.rds')
+saveRDS(stations_per_river, '~/eda_eu_rivers/assigment/stations_per_river.rds')
+saveRDS(distribution, '~/eda_eu_rivers/assigment/distribution.rds')
+saveRDS(year, '~/eda_eu_rivers/assigment/year.rds')

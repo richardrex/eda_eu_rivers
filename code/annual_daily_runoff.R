@@ -53,9 +53,9 @@ characteristic_2[Alt > 600, alt_range_class := factor('high')]
 characteristic_2
 
 
-saveRDS(characteristic_1, '~/R/Projects/eda_eu_rivers-master/data/characteristic_1.rds')
-saveRDS(characteristic_2, '~/R/Projects/eda_eu_rivers-master/data/characteristic_2.rds')
-saveRDS(runoff_characteristic, '~/R/Projects/eda_eu_rivers-master/data/runoff_char.rds')
+saveRDS(characteristic_1, '~/eda_eu_rivers/data/characteristic_1.rds')
+saveRDS(characteristic_2, '~/eda_eu_rivers/data/characteristic_2.rds')
+saveRDS(runoff_characteristic, '~/eda_eu_rivers/data/runoff_char.rds')
 
 
 runoff_characteristic[year >= 1980, year_class := factor('Post 1980')]
@@ -168,6 +168,11 @@ ggplot(percentage_of_change, aes(x=id, y=summer, label=summer)) +
 
 
 
-
+saveRDS(change_in_ratio, '~/eda_eu_rivers/data/change_in_ratio.rds')
+saveRDS(percentage_change, '~/eda_eu_rivers/data/percentage_change.rds')
+saveRDS(ratio_difference, '~/eda_eu_rivers/data/ratio_difference.rds')
+saveRDS(ratio_difference_2, '~/eda_eu_rivers/data/ratio_difference_2.rds')
+saveRDS(summer_winter, '~/eda_eu_rivers/data/summer_winter.rds')
+saveRDS(summer_winter_runnoff, '~/eda_eu_rivers/data/summer_winter_runnoff.rds')
 
 
