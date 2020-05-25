@@ -17,7 +17,6 @@ mapview(stations_coords, map.types = 'Stamen.TerrainBackground')
 
 ## A1:The stations are scattered throughout Europe. Higher concentrations of stations in the Nordics and DE
 
-##############################################################################################################
 
 
 ## Q2: How many stations/rivers per country
