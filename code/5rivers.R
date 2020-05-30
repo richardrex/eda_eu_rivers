@@ -98,7 +98,7 @@ ggplot(summer_runnof, aes(x = year, y = V1)) +
   geom_smooth(method = 'loess', formula = y~x, se = 0, col = colset_4[4]) +
   scale_color_manual(values = colset_4[c(1, 2, 3, 4)]) +
   xlab(label = "Year") +
-  ylab(label = "Runoff (m3/s)") +
+  ylab(label = "Runoff") +
   theme_bw()
 ggplot(winter_runnof, aes(x = year, y = V1)) +
   geom_line(col = colset_4[3], aes(group = 1))+

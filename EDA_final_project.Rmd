@@ -1,15 +1,226 @@
 ---
 title: "Explorary Data Analize(EDA)"
-author: 'Egor Suslin(richardrex: https://github.com/richardrex)'
+author: 'Egor Suslin (richardrex: https://github.com/richardrex)'
 date: "25/05/2020"
-output: ioslides_presentation
+output: 
+  html_document:
+    toc: true
+    number_sections: true
+    theme: united
+    pandoc_args: 
+      ["--number-sections",
+      "--number-offset=1"]
 ---
-
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
-```
-
-
-```{r setup, include=FALSE}
 source('~/eda_eu_rivers/code/sorce_code.R')
+colset_4 <- c("13CEBA", "0049FF", "3AFF00", "7913CE")
 ```
+## Inroduction
+
+
+I would like to present you R MarkDown report of European rivers. As default datasets,
+I had river`s basic info(name of stations, name of rivers, country, continent, longtitude, altitude, latitude and number of obsarvation)
+
+
+```{r tab, include=TRUE}
+head(runoff_eu_info)
+
+```
+
+
+So, using this information, can create a map with location of all stations presented in runoff_eu_info.rds
+
+
+```{r map, include=TRUE}
+stations_coords <- st_as_sf(runoff_eu_info,
+                            coords = c('Lon', 'Lat'),
+                            crs = 4326)
+
+mapview(stations_coords, map.types = 'Stamen.TerrainBackground')
+
+```
+
+
+As you can see, bigger part of all stations are located in Central Europe. Another big group of stations is located in Northern Europe (Northland) and only small part is located in Eastern Europe (mostly Russia).
+
+# Stations
+First table presents amount of stations in all European countries.
+In France located bigger part of all Europian stations (78), then goes Sweden(27) and Norway(26).
+
+
+```{r tab_1, echo=TRUE}
+head(station_per_country)
+```
+
+
+Second one shows amount of rivers in all European countries.
+We can see, that amount of stations bigger, than rivers.
+The reason of it is to collect as much data as possible, and present more clearly results.
+
+
+```{r tab_2, echo=TRUE}
+head(rivers_per_country)
+```
+
+
+And finally amount stations located in different rivers.
+
+
+```{r tab_3, echo=TRUE}
+head(stations_per_river)
+```
+
+
+As we can see from next table, bigger amount of all stations have more than 100 years of obsarvation.
+On the other hand, some of station have less than 90 years of obsarvation.
+That means, that I should be very careful with data manipulation.
+
+
+```{r plot_year, echo=TRUE}
+head(years)
+```
+
+
+# Annual and daily runoff
+Here presented 3 data tables with different descriptive statistics.
+runoff_char.rds containes mean, coefficient of variance, minimum and maximum runoff with annual data, skew and min/max ratio
+Need this for futher data manipulations, that are provided in folder /code in 
+annual_daily_runoff.R
+
+
+```{r tab_4, echo=TRUE}
+head(characteristic_1)
+head(characteristic_2)
+head(runoff_char)
+```
+
+
+In same file created a loop to see ratios of mean/high and mean/low runoff.
+Then put all data to new table
+
+
+```{r ratio_dif, echo=TRUE}
+head(ratio_difference_2)
+```
+
+
+After manipulations(winter and summer runoff before and after 1980), we can plot change of mean runnoff at stations before and after 1980 in summer and in winter
+
+
+```{r plot_runoff, echo=FALSE}
+percentage_of_change$ID_type_summer <- ifelse(summer < 0, "below", "above")
+ggplot(percentage_of_change, aes(x=id, y=summer, label=summer)) + 
+  geom_bar(stat='identity', aes(fill=ID_type_summer), width=.5)  +
+  scale_fill_manual(name="Percentage change of summer runoff", 
+                    labels = c("Positive(+)", "Negitive(-)"), 
+                    values = c("above"="#FF0000", "below"="#0027FF")) + 
+  labs(subtitle="Percentage change of mean runnoff at stations before and after 1980", 
+       title= "Plot of summer runoff") + 
+  coord_flip()
+```
+```{r tab_x, echo=FALSE}
+percentage_of_change$ID_type_winter <- ifelse(winter < 0, "below", "above")
+ggplot(percentage_of_change, aes(x=id, y=winter, label=winter)) + 
+  geom_bar(stat='identity', aes(fill=ID_type_winter), width=.5)  +
+  scale_fill_manual(name="Percentage change of winter runoff", 
+                    labels = c("Positive(+)", "Negitive(-)"), 
+                    values = c("above"="#FF0000", "below"="#0027FF")) + 
+  labs(subtitle="Percentage change of runnoff at stations before and after 1980", 
+       title= "Plot of winter runoff") + 
+  coord_flip()
+```
+
+This two plots present a lot of useful information. Due to it we can predict runoff in all rivers all over the year.
+
+# 5 Rivers
+Now we choose 5 different rivers. Dicided to choose stations at approximately equal and lower altitude(due to climate:a lot of precipitation) and with common year of observation(will be easy to compare)
+Rivers:
+ELBE, DANUBE RIVER, DEE (SCOTLAND), KOKEMAENJOKI, WESER.
+Human influence info:
+Elbe: https://www.clisap.de/clisap/about-us/news/human-impact-on-elbe-river-remains-severe/.
+Dunabe: https://www.icpdr.org/main/issues/human-impacts.
+http://archive.iwlearn.net/undp-drp.org/drp/danube_human_activities.html.
+
+Dee (SCOTLAND): http://www.riverdee.org.uk/education/introdee.
+
+Don`t find articles about Kokemaenjoki and Weser.
+
+First need to create new table with 5 rivers info and table with runoff of this 5 rivers.
+```{r rivers, echo=FALSE}
+head(main_5_info)
+head(runoff_5_rivers)
+```
+
+Now going to create box plot with the runoff seasonality at monthly scale.
+We can do this with mean() function of value in table runoff_5_rivers.rds.
+
+```{r rivers_5, echo=TRUE}
+head(seasonal_discharge)
+ggplot(seasonal_discharge, aes(x = factor(month), y = V1, group = month)) +
+  geom_boxplot() +
+  facet_wrap(~id, scales = 'free') +
+  xlab(label = "Month") +
+  ylab(label = "Runoff") +
+  theme_bw()
+```
+
+
+As we see, amount of runoff is different, but runoff increases and decreases in the same seasons. That is due to close location to each other. But some of stations have a little bit different runoff changes, due to different altitudes of stations.
+
+
+Then we need to present the slopes in winter/summer runoff per our 5 rivers. Need separate seasons with function factor() and then create a plot with this data 
+```{r runoff, echo=TRUE}
+head(winter_runnof)
+head(summer_runnof)
+
+ggplot(summer_runnof, aes(x = year, y = V1)) +
+  geom_line(col = colset_4[3], aes(group = 1))+
+  geom_point(col = colset_4[3])+
+  facet_wrap(~id, scales = 'free') +
+  geom_smooth(method = 'lm', formula = y~x, se = 0, col = colset_4[1]) +
+  geom_smooth(method = 'loess', formula = y~x, se = 0, col = colset_4[4]) +
+  scale_color_manual(values = colset_4[c(1, 2, 3, 4)]) +
+  xlab(label = "Year") +
+  ylab(label = "Runoff") +
+  theme_bw()
+ggplot(winter_runnof, aes(x = year, y = V1)) +
+  geom_line(col = colset_4[3], aes(group = 1))+
+  geom_point(col = colset_4[3])+
+  facet_wrap(~id, scales = 'free') +
+  geom_smooth(method = 'lm', formula = y~x, se = 0, col = colset_4[1]) +
+  geom_smooth(method = 'loess', formula = y~x, se = 0, col = colset_4[4]) +
+  scale_color_manual(values = colset_4[c(1, 2, 3, 4)]) +
+  xlab(label = "Year") +
+  ylab(label = "Runoff") +
+  theme_bw()
+
+```
+
+
+Slopes in this plots are very common, that is because I choose rivers located in approximately equal altitude and they are really close to each other(only eu rivers)
+
+Finally, I created plots with summer/winter runoff of all stations, but because of the HUGE amount of data, this plots are created with errors
+```{r all_runoff, echo=TRUE}
+head(all_stations_winter_runoff)
+head(all_stations_summer_runoff)
+```
+Plot looks like this(there is no winter runoff plot, because of small scale,so plots looks common)
+```{r rrr, echo=FALSE}
+ggplot(all_stations_summer_runoff, aes(x = year, y = V1)) +
+  geom_line(col = colset_4[1], aes(group = 1))+
+  geom_point(col = colset_4[1])+
+  facet_wrap(~id, scales = 'free') +
+  geom_smooth(method = 'lm', formula = y~x, se = 0, col = colset_4[4]) +
+  geom_smooth(method = 'loess', formula = y~x, se = 0, col = colset_4[3]) +
+  scale_color_manual(values = colset_4[c(1, 2, 3, 4)]) +
+  xlab(label = "Year") +
+  ylab(label = "Runoff") +
+  theme_bw()
+```
+
+
+# Conclusion
+During EDA course I faced with huge amount of data with all europian rivers. I analyze a lot of information to make different graph with essential for hydrologists. It is important, because without analyzing rivers` runoff, a lot of aspects of human beings(like shipings, fishing and collecting energy(hydro power plants)) will be damage as well.
+
+

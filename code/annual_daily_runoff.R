@@ -155,7 +155,7 @@ ggplot(percentage_of_change, aes(x=id, y=winter, label=winter)) +
        title= "Plot of winter runoff") + 
   coord_flip()
 
-coord_flip()
+
 percentage_of_change$ID_type_summer <- ifelse(summer < 0, "below", "above")
 ggplot(percentage_of_change, aes(x=id, y=summer, label=summer)) + 
   geom_bar(stat='identity', aes(fill=ID_type_summer), width=.5)  +
@@ -166,7 +166,10 @@ ggplot(percentage_of_change, aes(x=id, y=summer, label=summer)) +
        title= "Plot of summer runoff") + 
   coord_flip()
 
-
+winter_1 <- as.data.table(winter)
+summer_1 <- as.data.table(summer)
+saveRDS(winter_1, '~/eda_eu_rivers/data/winter_1.rds')
+saveRDS(summer_1, '~/eda_eu_rivers/data/summer_1.rds')
 
 saveRDS(change_in_ratio, '~/eda_eu_rivers/data/change_in_ratio.rds')
 saveRDS(percentage_change, '~/eda_eu_rivers/data/percentage_change.rds')
@@ -174,5 +177,6 @@ saveRDS(ratio_difference, '~/eda_eu_rivers/data/ratio_difference.rds')
 saveRDS(ratio_difference_2, '~/eda_eu_rivers/data/ratio_difference_2.rds')
 saveRDS(summer_winter, '~/eda_eu_rivers/data/summer_winter.rds')
 saveRDS(summer_winter_runnoff, '~/eda_eu_rivers/data/summer_winter_runnoff.rds')
-
-
+saveRDS(percentage_of_change, '~/eda_eu_rivers/data/percentage_of_change.rds' )
+saveRDS(winter, '~/eda_eu_rivers/data/winter.rds')
+saveRDS(summer, '~/eda_eu_rivers/data/summer.rds')

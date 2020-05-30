@@ -41,13 +41,13 @@ distribution[, Lat := round(Lat, 3)]#just some rounding to have better values
 distribution[, Lon := round(Lon, 3)]
 distribution[, Alt := round(Alt, 0)]
 ## Q5: Which is the distribution of record length?
-year <- runoff_eu_info[, list(Station, N.Years)]#record length
+years <- runoff_eu_info[, list(Station, N.Years)]#record length
 
 space <- ggplot(data = distribution, aes(x = Lat, y = Lon, size = Alt)) +
   geom_point()
 space # Plotting lon and lat of station with different alt
 
-year_plot <- ggplot(data = year, aes(x = 1:208, y = N.Years)) +
+year_plot <- ggplot(data = years, aes(x = 1:208, y = N.Years)) +
   geom_point()
 year_plot #the bigger part of stations have 100 year of data
 
@@ -58,4 +58,4 @@ saveRDS(station_per_country, '~/eda_eu_rivers/assigment/station_per_country.rds'
 saveRDS(rivers_per_country, '~/eda_eu_rivers/assigment/rivers_per_country.rds')
 saveRDS(stations_per_river, '~/eda_eu_rivers/assigment/stations_per_river.rds')
 saveRDS(distribution, '~/eda_eu_rivers/assigment/distribution.rds')
-saveRDS(year, '~/eda_eu_rivers/assigment/year.rds')
+saveRDS(years, '~/eda_eu_rivers/assigment/years.rds')
