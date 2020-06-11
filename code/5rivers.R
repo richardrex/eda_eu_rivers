@@ -120,6 +120,8 @@ all_stations_summer_runoff <- all_stations_summer_runoff[,sum(value), by = .(yea
 all_stations_summer_runoff
 all_stations_winter_runoff <- all_stations_winter_runoff[,sum(value), by = .(year,id)]
 all_stations_winter_runoff
+winter_runoff_15 <- all_stations_winter_runoff[1:15]
+head(winter_runoff_15)
 
 ggplot(all_stations_summer_runoff, aes(x = year, y = V1)) +
   geom_line(col = colset_4[1], aes(group = 1))+

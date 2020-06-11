@@ -200,14 +200,18 @@ ggplot(winter_runnof, aes(x = year, y = V1)) +
 
 Slopes in this plots are very common, that is because I choose rivers located in approximately equal altitude and they are really close to each other(only eu rivers)
 
-Finally, I created plots with summer/winter runoff of all stations, but because of the HUGE amount of data, this plots are created with errors
+Finally, I created plots with summer/winter runoff of all stations, but because of the HUGE amount of data, this plots are created with errors, so i decided to create new data table with choosen 15 station`s winter/summer runoff.
+I don`t see any sences to show plots for all stations, because some of them look really common(Especially where precepitation approximately equal). It happens with stations, located close to each other(a lot of them, because Europe is not so big) and on same alltitudes. So it is enough to show only 15 stations at all.
 ```{r all_runoff, echo=TRUE}
 head(all_stations_winter_runoff)
 head(all_stations_summer_runoff)
+summer_runoff_15 <- all_stations_summer_runoff[1:15]
+winter_runoff_15 <- all_stations_winter_runoff[1:15]
+
 ```
-Plot looks like this(there is no winter runoff plot, because of small scale,so plots looks common)
+
 ```{r rrr, echo=FALSE}
-ggplot(all_stations_summer_runoff, aes(x = year, y = V1)) +
+ggplot(winter_runoff_15, aes(x = year, y = V1)) +
   geom_line(col = colset_4[1], aes(group = 1))+
   geom_point(col = colset_4[1])+
   facet_wrap(~id, scales = 'free') +
@@ -216,6 +220,21 @@ ggplot(all_stations_summer_runoff, aes(x = year, y = V1)) +
   scale_color_manual(values = colset_4[c(1, 2, 3, 4)]) +
   xlab(label = "Year") +
   ylab(label = "Runoff") +
+  labs(subtitle="Winter runoff for choosen 15 stations", 
+       title= "Plot of summer runoff") +
+  theme_bw()
+
+ggplot(summer_runoff_15, aes(x = year, y = V1)) +
+  geom_line(col = colset_4[1], aes(group = 1))+
+  geom_point(col = colset_4[1])+
+  facet_wrap(~id, scales = 'free') +
+  geom_smooth(method = 'lm', formula = y~x, se = 0, col = colset_4[4]) +
+  geom_smooth(method = 'loess', formula = y~x, se = 0, col = colset_4[3]) +
+  scale_color_manual(values = colset_4[c(1, 2, 3, 4)]) +
+  xlab(label = "Year") +
+  ylab(label = "Runoff") +
+  labs(subtitle="Summer runoff for choosen 15 stations", 
+       title= "Plot of summer runoff") +
   theme_bw()
 ```
 
